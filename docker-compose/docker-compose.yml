@@ -10,14 +10,23 @@ services:
       POSTGRES_USER: ${DATABASE_USER}
       POSTGRES_PASSWORD: ${DATABASE_PASS}
     ports:
-      - "${DATABASE_PORT}:5432"  # Используем порт 5432 для PostgreSQL
+      - "${DATABASE_PORT}:5432"
 
   db-starter:
-    build:
-      context: ../db-starter
-      dockerfile: Dockerfile
+    image: db-starter:1.0
     env_file:
       - .env
     depends_on:
-      - postgres  # Исправлено имя сервиса на postgres
-    command: ["ts-node", "src/init-db.ts"]
+      - postgres
+    restart: "no"
+    #command: ["npx", "ts-node", "src/init-db.ts"]
+    
+  transaction-service:
+    image: transaction-service:0.1
+    env_file:
+      - .env
+    depends_on:
+      db-starter:
+        condition: service_completed_successfully
+    ports:
+    - "${TRANSACTION_PORT}:5051"
