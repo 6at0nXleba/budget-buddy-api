@@ -1,68 +1,203 @@
 {
-    "openapi": "3.0.0",
-    "info": {
-      "title": "User API",
-      "version": "1.0.0",
-      "description": "API for managing users"
-    },
-    "servers": [
-      {
-        "url": "http://localhost:5051/api"
-      }
-    ],
-    "paths": {
-      "/users": {
-        "get": {
-          "summary": "Get all users",
-          "responses": {
-            "200": {
-              "description": "A list of users",
-              "content": {
-                "application/json": {
-                  "schema": {
-                    "type": "array",
-                    "items": {
-                      "type": "object",
-                      "properties": {
-                        "id": {
-                          "type": "string"
-                        },
-                        "name": {
-                          "type": "string"
-                        }
-                      }
-                    }
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Transaction Service API",
+    "version": "0.0.1",
+    "description": "API for managing transactions."
+  },
+  "paths": {
+    "/transactions": {
+      "get": {
+        "summary": "Retrieve all transactions",
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Transaction"
                   }
                 }
               }
             }
           }
+        }
+      },
+      "post": {
+        "summary": "Create a new transaction",
+        "requestBody": {
+          "description": "Data for the new transaction",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Transaction"
+              }
+            }
+          }
         },
-        "post": {
-          "summary": "Create a user",
-          "requestBody": {
-            "required": true,
+        "responses": {
+          "201": {
+            "description": "Transaction successfully created",
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "object",
-                  "properties": {
-                    "name": {
-                      "type": "string"
-                    }
-                  },
-                  "required": ["name"]
+                  "$ref": "#/components/schemas/Transaction"
                 }
               }
-            }
-          },
-          "responses": {
-            "201": {
-              "description": "User created"
             }
           }
         }
       }
+    },
+    "/transactions/{id}": {
+      "get": {
+        "summary": "Retrieve a transaction by ID",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Transaction"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Transaction not found"
+          }
+        }
+      },
+      "put": {
+        "summary": "Update a transaction by ID",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "Updated data for the transaction",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Transaction"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Transaction successfully updated",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Transaction"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Transaction not found"
+          }
+        }
+      },
+      "delete": {
+        "summary": "Delete a transaction by ID",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Transaction successfully deleted"
+          },
+          "404": {
+            "description": "Transaction not found"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Transaction": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "number",
+            "description": "Transaction ID"
+          },
+          "amount": {
+            "type": "number",
+            "format": "float",
+            "description": "Amount of the transaction"
+          },
+          "account_id":{
+            "type":"number",
+            "description":"Id of account that is related to this transaction"
+          },
+          "expense_type":{
+            "type":"number",
+            "description":"Type of expense"
+          },
+          "positive":{
+            "type":"bool",
+            "description":"If 'true' => +100$, if 'false' -100$"
+          },
+          "regular":{
+            "type":"bool",
+            "description":"Is this transaction regular or not?"
+          },
+          "user_created":{
+            "type":"number",
+            "description":"Related user to this transaction"
+          },
+          "currency":{
+            "type":"number",
+            "description":"Transaction currency"
+          },
+          "description": {
+            "type": "string",
+            "description": "Description of the transaction"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Date of the transaction"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Date of the transaction"
+          }
+        },
+        "required": ["amount", "date"]
+      }
     }
   }
-  
+}
