@@ -1,25 +1,21 @@
-# Stage 1: Build the application
-FROM node:18 as builder
+# Stage 1: Build the app
+FROM node:20-alpine AS builder
 
-WORKDIR /app
+WORKDIR /usr/src/app
 
 COPY package*.json ./
-
 RUN npm install
 
-COPY . .
+COPY tsconfig.json ./
+COPY src ./src
 
-RUN npm run build
+# Stage 2: Production image
+FROM node:20-alpine
 
-# Stage 2: Run the application
-FROM node:18-slim
+WORKDIR /usr/src/app
 
-WORKDIR /app
-
-COPY --from=builder /app .
-
-RUN npm install --production
+COPY --from=builder /usr/src/app ./
 
 EXPOSE 3000
 
-CMD ["npm", "start"]
+CMD ["npx", "ts-node", "src/init-db.ts"]
