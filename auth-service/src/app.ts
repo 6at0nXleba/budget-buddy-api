@@ -1,5 +1,5 @@
 import express from 'express';
-import authRoutes from './routes/auth';
+import authRoutes from './routes/authRoute';
 import { configDotenv } from 'dotenv';
 import { sequelize } from './config/db';
 
