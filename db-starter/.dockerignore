@@ -9,3 +9,5 @@ README.md
 **/node_modules
 **/delete
 **/.vscode
+
+.env
