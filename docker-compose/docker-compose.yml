@@ -7,13 +7,14 @@ services:
       - .env
     container_name: postgres-db
     environment:
-      POSTGRES_USER: ${DATABASE_USER}
-      POSTGRES_PASSWORD: ${DATABASE_PASS}
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASS}
     ports:
-      - "${DATABASE_PORT}:5432"
+      - "${DB_PORT}:5432"
 
   db-starter:
     image: db-starter:1.0
+    container_name: db-starter
     env_file:
       - .env
     depends_on:
@@ -21,8 +22,20 @@ services:
     restart: "no"
     #command: ["npx", "ts-node", "src/init-db.ts"]
     
+  auth-service:
+    image: auth-service:0.1
+    container_name: auth
+    env_file:
+      - .env
+    depends_on:
+      db-starter:
+        condition: service_completed_successfully
+    ports:
+    - "${AUTH_PORT}:5050"
+    
   transaction-service:
     image: transaction-service:0.1
+    container_name: transaction
     env_file:
       - .env
     depends_on:

@@ -1,10 +1,11 @@
 import { initTransactionModel } from "./models/transactions";
 import { createDatabaseIfNotExists } from "./utils/create-db";
 import { createConnection } from "./utils/connect-db";
+import initUserModel from "./models/users";
 
 const run = async()=>{
  const createDatabasesAndTables = async () => {
-        const allDB = [{name:'transactions', create:initTransactionModel}]
+        const allDB = [{name:'transactions', create:initTransactionModel}, {name:'users', create:initUserModel}]
         try {
           
       

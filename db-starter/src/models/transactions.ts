@@ -1,4 +1,4 @@
-import { DataTypes, Model, Sequelize } from "sequelize";
+import { DataTypes, Sequelize } from "sequelize";
 
 const initTransactionModel =(sequelize: Sequelize)=>{return sequelize.define( 'Transaction', {
         id: {
