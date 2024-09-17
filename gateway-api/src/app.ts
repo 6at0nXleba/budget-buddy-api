@@ -9,12 +9,12 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-app.use(authenticate);
-
 app.use((err: Error, _req: Request, res: Response, _next: NextFunction) => {
   logger.error(err.stack);
   res.status(500).json({ message: 'Internal Server Error' });
 });
+
+app.use(authenticate);
 
 app.use('/api', routes);
 

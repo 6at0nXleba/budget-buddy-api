@@ -2,6 +2,7 @@ import { Request, Response, NextFunction } from 'express';
 import createHttpClient from '../utils/httpClient';
 import { configDotenv } from 'dotenv';
 import { errorCatcher } from '../utils/errorCatcher';
+import logger from './logger';
 configDotenv();
 
 // eslint-disable-next-line consistent-return
@@ -24,6 +25,7 @@ export const authenticate = async(req: Request, res: Response, next: NextFunctio
     }
 
   } catch (error) {
+    logger.error('test error');
     errorCatcher(error, res, 'Invalid token verify error');
   }
 };

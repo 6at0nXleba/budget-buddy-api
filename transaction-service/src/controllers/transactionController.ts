@@ -99,7 +99,7 @@ export const updateTransaction = async (req: Request, res: Response) => {
   }
 };
 
-// Удаление транзакции по ID
+//? Delete by ID
 export const deleteTransaction = async (req: Request, res: Response) => {
   const { id } = req.params;
 
