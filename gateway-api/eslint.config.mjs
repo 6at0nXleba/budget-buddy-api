@@ -21,7 +21,6 @@ export default [
       '@typescript-eslint': tseslint,
     },
     rules: {
-      // Слияние правил из TypeScript и JavaScript конфигураций
       ...jsEslintConfig,
       ...tsEslintConfig,
 
