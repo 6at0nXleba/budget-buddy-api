@@ -1,10 +1,7 @@
-import { NextFunction, Request, Response } from 'express';
+import { Request, Response } from 'express';
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import User from '../models/user';
-import { configDotenv } from 'dotenv';
-
-configDotenv()
 
 const secret = process.env.JWT_SECRET
 

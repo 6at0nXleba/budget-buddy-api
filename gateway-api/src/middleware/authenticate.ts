@@ -1,17 +1,18 @@
 import { Request, Response, NextFunction } from 'express';
 import createHttpClient from '../utils/httpClient';
-import { configDotenv } from 'dotenv';
 import { errorCatcher } from '../utils/errorCatcher';
-import logger from './logger';
-configDotenv();
 
 // eslint-disable-next-line consistent-return
 export const authenticate = async(req: Request, res: Response, next: NextFunction) => {
   const authPort = process.env.AUTH_PORT||5050;
+  const noAuth = process.env.NO_AUTH==='true';
   const authApi = createHttpClient(authPort);
   const token = req.headers.authorization?.split(' ')[1];
 
-  if (!token) {
+  if (noAuth) {
+    next();
+    return null;
+  } else if (!token) {
     return res.status(401).json({ message: 'Token is required' });
   }
 
@@ -25,7 +26,6 @@ export const authenticate = async(req: Request, res: Response, next: NextFunctio
     }
 
   } catch (error) {
-    logger.error('test error');
     errorCatcher(error, res, 'Invalid token verify error');
   }
 };

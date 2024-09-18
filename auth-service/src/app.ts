@@ -3,7 +3,11 @@ import authRoutes from './routes/authRoute';
 import { configDotenv } from 'dotenv';
 import { sequelize } from './config/db';
 
-configDotenv()
+if (process.env.NODE_ENV !== 'production') {
+  configDotenv({ path: '.env.local' }); // local development
+} else {
+  configDotenv(); // env from Docker or .env
+}
 
 const app = express();
 const PORT = process.env.AUTH_PORT || 5050;

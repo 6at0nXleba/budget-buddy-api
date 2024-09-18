@@ -1,7 +1,5 @@
-import { configDotenv } from "dotenv";
 import { Sequelize } from "sequelize";
 
-configDotenv()
 
 const username =  process.env.DB_USER || 'admin'
 const password = process.env.DB_PASS || 'admin'
