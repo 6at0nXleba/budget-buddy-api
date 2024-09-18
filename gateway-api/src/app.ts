@@ -1,8 +1,15 @@
 import express, { Request, Response, NextFunction } from 'express';
 import cors from 'cors';
 import { routes } from './routes';
-import logger from './middleware/logger';
 import { authenticate } from './middleware/authenticate';
+import { configDotenv } from 'dotenv';
+import { logger } from './middleware/logger';
+
+if (process.env.NODE_ENV !== 'production') {
+  configDotenv({ path: '.env.local' }); // local development
+} else {
+  configDotenv(); // env from Docker or .env
+}
 
 const app = express();
 

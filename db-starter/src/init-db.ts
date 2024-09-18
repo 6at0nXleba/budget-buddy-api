@@ -2,6 +2,13 @@ import { initTransactionModel } from "./models/transactions";
 import { createDatabaseIfNotExists } from "./utils/create-db";
 import { createConnection } from "./utils/connect-db";
 import initUserModel from "./models/users";
+import { configDotenv } from "dotenv";
+
+if (process.env.NODE_ENV !== 'production') {
+  configDotenv({ path: '.env.local' }); // local development
+} else {
+  configDotenv(); // env from Docker or .env
+}
 
 const run = async()=>{
  const createDatabasesAndTables = async () => {

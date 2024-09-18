@@ -1,7 +1,4 @@
-import { configDotenv } from 'dotenv'
 import {Client} from 'pg'
-
-configDotenv()
 
 const port = process.env.DB_PORT || 5432
 const username =  process.env.DB_USER || 'admin'
